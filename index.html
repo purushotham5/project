@@ -111,4 +111,15 @@ function Events() {
       }));
       setGlobalEvents(eventsData);
     });
-    return unsubscribe
+    return unsubscribe;
+}, []);
+
+  useEffect(() => {
+    if (userId) {
+      const unsubscribe = db.collection('events').where('userId', '==', userId).onSnapshot((snapshot) => {
+        const eventsData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setUserEvents(eventsData);
+      });
